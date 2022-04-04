@@ -1,10 +1,11 @@
 # Monomorphization
 
-一个博客园皮肤扩展，基于[CNBlogX][CNBlogX]与Simple Memory（原生博客园皮肤）。
+一个简单的博客园皮肤扩展，基于[CNBlogX][CNBlogX]与[Simple Memory][SimpleMemory]。
 
-[CNBlogX]: https://github.com/moeshinyo/create-cnblogx
+[CNBlogX]: <https://github.com/moeshinyo/create-cnblogx>
+[SimpleMemory]: <https://www.cnblogs.com/SkinUser.aspx?SkinName=SimpleMemory>
 
-- Github风格的Markdown主题。
+- 使用Github风格的Markdown主题。
 - 添加了一个目录。
   - 目录能够高亮离页面顶部最近的标题。
   - 目录能够与页面协同滚动。
@@ -17,7 +18,7 @@
 
 # 部署
 
-1. 将博客主题更改为Simple Memory。
+1. 将博客主题更改为[Simple Memory][SimpleMemory]。
 
 2. 执行编译：
 

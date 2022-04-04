@@ -5,7 +5,7 @@ $markdown-horizontal-line : rgb(208, 215, 222);
 $markdown-blockquote-background : transparent;
 $markdown-blockquote-foreground : rgb(87, 96, 106);
 $markdown-blockquote-indicator : rgb(208, 215, 222);
-$markdown-tip-background : rgb(246, 251, 255);
+$markdown-tip-background : rgb(229, 241, 252);
 $markdown-table-background : rgb(255, 255, 255);
 $markdown-table-header-background: rgb(255, 255, 255);
 $markdown-table-item2n-background: rgb(246, 248, 250);
@@ -93,15 +93,30 @@ $markdown-inline-code-background: rgba(175, 184, 193, 0.2);
         font-style: italic; //   override for comment
     }
 
-    // unordered list. 
+    // unordered list & tip block. 
+    $unordered-list-margin-left: 30px;
     ul {
-        // work with "tip block" (ul>li:only-child)
-        margin-left: 30px; // override
+        margin-left: $unordered-list-margin-left; // override
         padding-left: 0; // repeat for comment
 
         li {
             list-style-type: circle;
         }
+    }
+    >ul>li:only-child {
+        list-style-type: none; // override
+        margin: 20px 0px 20px -#{$unordered-list-margin-left};
+        background-color: $markdown-tip-background;
+        border-radius: 3px;
+
+        padding: 12px 16px;
+        @include styleutils.padding-margin-collapse;
+    }
+
+    // unordered list. 
+    ol {
+        margin-left: 30px; // override
+        padding-left: 0; // repeat for comment
     }
 
     // list item
@@ -111,7 +126,7 @@ $markdown-inline-code-background: rgba(175, 184, 193, 0.2);
         margin-left: 0; // repeat for comment
     }
 
-    // block list. 
+    // blockquote
     blockquote {
         background-color: $markdown-blockquote-background;
         color: $markdown-blockquote-foreground;
@@ -121,16 +136,6 @@ $markdown-inline-code-background: rgba(175, 184, 193, 0.2);
         border-left: 4px solid $markdown-blockquote-indicator;
 
         padding: 4px;
-        @include styleutils.padding-margin-collapse;
-    }
-
-    // tip block
-    >ul>li:only-child {
-        list-style-type: none; // override
-        margin: 20px 0px 20px -30px;
-        background-color: $markdown-tip-background;
-
-        padding: 16px;
         @include styleutils.padding-margin-collapse;
     }
 
@@ -218,7 +223,6 @@ $markdown-inline-code-background: rgba(175, 184, 193, 0.2);
         }
     }
     
-
     // block code
     pre {
         margin: 20px 0;
