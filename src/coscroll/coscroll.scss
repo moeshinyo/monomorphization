@@ -1,0 +1,42 @@
+@use "../utils/styleutils";
+
+@include styleutils.landscape {
+  #main {
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  #sideBar {
+    // background-color: pink;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    position: relative;
+    height: fit-content;
+    float: none;
+    top: var(--cnblogx-coscroll-offsety, 0);
+
+    // assetion: width has been set in another file. 
+    &.cnblogx-coscroll-pinned {
+      height: var(--cnblogx-coscroll-inner-height);
+    }
+  }
+
+  #sideBarMain {
+    // &, & * {
+    //   background-color: aquamarine !important;
+    // }
+    // opacity: 0.5;
+    margin: 0 !important;
+    display: flow-root;
+    position: relative;
+    height: fit-content;
+
+    .cnblogx-coscroll-pinned>& {
+      position: fixed;
+      left: var(--cnblogx-coscroll-middle-left);
+      width: var(--cnblogx-coscroll-middle-width);
+      top: var(--cnblogx-coscroll-pinning-offsety);
+    }
+  }
+}

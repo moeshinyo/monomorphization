@@ -1,0 +1,7 @@
+{
+    "files": ["infra/main.d.ts"], 
+    "compilerOptions": {
+        "allowSyntheticDefaultImports" : true
+    }, 
+    "extends": "@tsconfig/recommended/tsconfig.json"
+}

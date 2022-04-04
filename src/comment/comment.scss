@@ -1,0 +1,118 @@
+@use "../utils/styleutils";
+$comment-background: #f6f6f6;
+$comment-boxshadow: #dfdfdf;
+$comment-menu-border: #ddd;
+$comment-menu-foreground: #707070;
+$comment-menu-active-foreground: #333;
+
+
+// 
+// comment bubbles 
+.blog_comment_body {
+  text-align: left;
+  max-width: calc(100% - 96px);
+  display: inline-block;
+  margin: 6px auto 6px 12px;
+  border: none;
+  background-color: $comment-background;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 2px 2px 2px $comment-boxshadow;
+  height: fit-content;
+  
+  padding: 10px;
+  @include styleutils.padding-margin-collapse;
+
+  &::after {
+    content: "";
+    border-right: 12px solid $comment-background;
+    border-top: 6px solid transparent;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    left: -10px;
+    top: 12px;
+  }
+
+  @include styleutils.portrait {
+    font-size: 0.875rem;
+    max-width: calc(100% - 124px);
+  }
+}
+
+// comments: modify 
+.feedbackManage {
+  float: right;
+
+  &>.comment_actions{
+    display: inline-flex;
+    &>a {
+      font-weight: normal;
+      line-height: 1.15;
+      color: $comment-menu-foreground;
+      padding: 0 8px;
+      &:not(:first-child) {
+        border-left: 1px solid $comment-menu-border;
+      }
+      &:hover {
+        color: $comment-menu-active-foreground;
+      }
+    }
+  }
+}
+
+
+// 
+// override browzer defaults
+.feedbackItem:focus {
+  outline: none;
+}
+
+
+// 
+// comments: sender information 
+.feedbackListSubtitle {
+  font-size: .875rem;
+  text-align: left;
+  margin: 2px 0;
+}
+
+// 
+// navigator of comment area 
+#comment_nav {
+  display: flex;
+  margin: 12px 0 6px 0;
+  padding: 4px;
+  &>a {
+    font-size: .875rem;
+    line-height: 1.15;
+    color: $comment-menu-foreground;
+    padding: 0 8px;
+    &:first-of-type {
+      margin-left: auto;
+    }
+    &:not(:first-of-type) {
+      border-left: 1px solid $comment-menu-border;
+    }
+    &:hover {
+      color: $comment-menu-active-foreground;
+      text-decoration: underline;
+    }
+  }
+}
+
+.feedbackCon {
+  display: flow-root;
+}
+
+
+.comment_vote {
+  margin: 6px;
+  padding: 0;
+  float: right;
+  clear: left;
+  margin-top: -2px;
+  font-size: 12px;
+}
+
+
+

@@ -1,0 +1,33 @@
+@use "sass:map";
+
+//
+// landscape (pc)
+@mixin landscape {
+  @media not screen and (max-width:768px) {
+    @content;
+  }
+}
+
+
+// 
+// portrait (mobile)
+@mixin portrait {
+  @media screen and (max-width:768px) {
+    @content;
+  }
+}
+
+
+// 
+// padding-margin collapse pattern. 
+@mixin padding-margin-collapse {
+  >* {
+    &:first-child {
+      margin-top: 0 !important;
+    }
+
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+}

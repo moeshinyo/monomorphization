@@ -1,0 +1,13 @@
+@use "../styleutils";
+
+//
+// used for scripts to detect screend mode. 
+:root {
+  --cnblogx-portrait: 0;
+}
+
+@include styleutils.portrait {
+   :root {
+    --cnblogx-portrait: 1;
+  }
+}

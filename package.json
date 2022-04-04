@@ -1,0 +1,57 @@
+{
+  "name": "monomorphization",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "dev": "webpack serve --mode=development",
+    "build": "webpack --mode=production --env STANDALONE_CSS=NOREF",
+    "packed": "webpack --mode=production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "browserslist": [
+    "extends @davidhund/browserslist-config"
+  ],
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@davidhund/browserslist-config": "^1.0.0",
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/webpack-env": "^1.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "autoprefixer": "^10.2.6",
+    "babel-loader": "^8.2.4",
+    "css-loader": "^5.2.6",
+    "css-minimizer-webpack-plugin": "^3.0.2",
+    "ejs-compiled-loader": "^3.1.0",
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-webpack-plugin": "^3.1.1",
+    "html-inline-script-webpack-plugin": "^3.0.0",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-skip-assets-plugin": "^1.0.2",
+    "mini-css-extract-plugin": "^1.6.0",
+    "postcss": "^8.4.12",
+    "postcss-color-hex-alpha": "^8.0.0",
+    "postcss-loader": "^6.1.0",
+    "sass": "^1.34.0",
+    "sass-loader": "^11.1.1",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.1",
+    "typescript": "^4.6.3",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  }
+}

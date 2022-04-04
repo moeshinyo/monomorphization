@@ -1,0 +1,106 @@
+@use "../utils/styleutils";
+@use "../literals/links";
+
+
+#home {
+    margin-top: 12px;
+    padding-top: 2px;
+    font-size: 14px;
+    color: rgb(44, 45, 47);
+}
+
+#navigator {
+    margin-top: 0;
+    border-top: none;
+}
+
+@include styleutils.landscape {
+    #main {
+        gap: 4px;
+        display: flex;
+
+        #mainContent {
+            flex: 1;
+            margin: 0;
+
+            >.forFlow {
+                padding: 2px;
+                margin: 0;
+            }
+        }
+
+        #sideBar {
+            width: 280px;
+        }
+    }
+}
+
+#green_channel{
+    a {
+        background-image: none;
+        border-radius: 3px;
+    }
+    #green_channel_digg {
+        background-color: rgb(138, 220, 225);
+    }
+    #green_channel_follow {
+        background-color: rgb(202, 146, 221);
+    }
+    #green_channel_favorite {
+        background-color: rgb(214, 167, 121);
+    }
+} 
+
+h1.postTitle {
+    font-size: 24px !important;
+
+    a:hover {
+        margin-left: auto;
+        color: #21759b;
+    }
+}
+
+#topics {
+    float: none;
+}
+
+.postBody blockquote {
+    background-image: none;
+}
+
+.cnb-code-toolbar:hover {
+    color: rgb(92, 94, 100);
+    opacity: .8;
+
+    >.cnb-code-toolbar-item:hover {
+        color: rgb(44, 45, 47);
+        opacity: 1;
+    }
+}
+
+.code-fullscreen-overlay>pre {
+    font-size: 14px;
+    line-height: 1.45;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+}
+
+#sideBar {
+    overflow: visible;
+    font-size: 14px;
+}
+
+#div_digg {
+    >.diggit {
+        background-image: links.$article-diggit-icon-link;
+    }
+    >.buryit {
+        background-image: links.$article-buryit-icon-link;
+    }
+    >.diggit, 
+    >.buryit {
+        filter: contrast(105%);
+        &:hover {
+            filter: contrast(110%);
+        }
+    }
+}

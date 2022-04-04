@@ -1,0 +1,37 @@
+@use "sass:list";
+@use "./avatar.icss" as avatars;
+@use "../literals/links.scss";
+
+$avatar-border: rgb(241, 241, 241);
+
+// 
+// avatar in comment area (for users have avatar). 
+.cnblogx_avatar {
+  width: 38.4px;
+  height: 38.4px;
+  margin-top: 6px;
+  float: left;
+  box-sizing: border-box;
+  border: 1px solid $avatar-border;
+}
+
+
+// 
+// define color sequence for default avatars. 
+@for $i from 1 through list.length(avatars.$avatars-background-array) {
+  .cnblogx_default_avatar_#{$i - 1} {
+    background-color: list.nth(avatars.$avatars-background-array, $i);
+  }
+}
+
+
+// 
+// display default avatar. 
+.cnblogx_default_avatar {
+  // display: inline-block; // float
+  position: relative;
+  background-image: links.$avatar-default-portrait-link;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

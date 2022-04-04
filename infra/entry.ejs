@@ -1,0 +1,8 @@
+<div id="<%= __TAG_CUSTOM_HTML %>">
+    <!-- 引入HTML资源。 -->
+    <%- include ../src/main %>
+    <!-- 引入样式。 -->
+    <%- htmlWebpackPlugin.tags.headTags %>
+    <!-- 引入代码。 -->
+    <%- htmlWebpackPlugin.tags.bodyTags %>
+</div>

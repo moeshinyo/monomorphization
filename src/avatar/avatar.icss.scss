@@ -1,0 +1,6 @@
+@use "sass:list";
+$avatars-background-array: #25557c, #242424, #8667c6, #da5c5c, #ff9be3, #98bf66, #fbf70d, #27bcf3;
+
+:export {
+    defaultAvatarsLength: list.length($avatars-background-array);
+}

@@ -1,0 +1,237 @@
+@use "../utils/styleutils";
+$markdown-foreground : rgb(36, 41, 47);
+$markdown-header-bottomline : rgb(216, 222, 228);
+$markdown-horizontal-line : rgb(208, 215, 222);
+$markdown-blockquote-background : transparent;
+$markdown-blockquote-foreground : rgb(87, 96, 106);
+$markdown-blockquote-indicator : rgb(208, 215, 222);
+$markdown-tip-background : rgb(246, 251, 255);
+$markdown-table-background : rgb(255, 255, 255);
+$markdown-table-header-background: rgb(255, 255, 255);
+$markdown-table-item2n-background: rgb(246, 248, 250);
+$markdown-table-border : rgb(208, 215, 222);
+$markdown-code-background : rgb(246, 248, 250);
+$markdown-inline-code-background: rgba(175, 184, 193, 0.2);
+
+
+//
+// markdown
+#home .cnblogs-markdown {
+    color: $markdown-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 16px;
+    line-height: 1.5;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    h1 {
+        margin: .67em 0;
+        font-weight: 600;
+        padding-bottom: .3em;
+        font-size: 2em;
+        border-bottom: 1px solid $markdown-header-bottomline;
+    }
+
+    h2 {
+        font-weight: 600;
+        padding-bottom: .3em;
+        font-size: 1.5em;
+        border-bottom: 1px solid $markdown-header-bottomline;
+    }
+
+    h3 {
+        font-weight: 600;
+        font-size: 1.25em;
+    }
+
+    h4 {
+        font-weight: 600;
+        font-size: 1em;
+    }
+
+    h5,
+    h6 {
+        font-weight: 600;
+        font-size: .875em;
+    }
+
+    hr {
+        background-color: $markdown-horizontal-line;
+        height: .25em;
+        border: none;
+        margin: 24px 0;
+        visibility: visible; //   override for comment
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    // figure block. 
+    p>img:only-child {
+        display: block;
+        margin: 20px auto;
+        width: calc(100% - 32px);
+    }
+
+    strong {
+        font-weight: bold; //   override for comment
+    }
+
+    em {
+        font-style: italic; //   override for comment
+    }
+
+    // unordered list. 
+    ul {
+        // work with "tip block" (ul>li:only-child)
+        margin-left: 30px; // override
+        padding-left: 0; // repeat for comment
+
+        li {
+            list-style-type: circle;
+        }
+    }
+
+    // list item
+    li {
+        line-height: 26px;
+        margin-bottom: 8px;
+        margin-left: 0; // repeat for comment
+    }
+
+    // block list. 
+    blockquote {
+        background-color: $markdown-blockquote-background;
+        color: $markdown-blockquote-foreground;
+        line-height: 26px;
+        border: none;
+        margin: 20px 0;
+        border-left: 4px solid $markdown-blockquote-indicator;
+
+        padding: 4px;
+        @include styleutils.padding-margin-collapse;
+    }
+
+    // tip block
+    >ul>li:only-child {
+        list-style-type: none; // override
+        margin: 20px 0px 20px -30px;
+        background-color: $markdown-tip-background;
+
+        padding: 16px;
+        @include styleutils.padding-margin-collapse;
+    }
+
+    // math formula
+    .math {
+        font-size: 0.875em;
+    }
+
+    // markdown table (with wrapper) 
+    div.table-wrapper {
+        margin: 20px auto;
+
+        >table {
+            margin: 0 auto;
+            min-width: fit-content;
+        }
+    }
+
+    // text table
+    >table,
+    blockquote>table,
+    li>table,
+    .table-wrapper>table {
+        display: table; // override for mobile
+        word-break: keep-all;
+        margin: 20px auto;
+        overflow-x: auto;
+        background-color: $markdown-table-background;
+
+        th {
+            background-color: $markdown-table-header-background; // override
+            background-size: 12px 12px;
+            font-weight: normal;
+        }
+
+        tbody tr:nth-child(2n) {
+            background-color: $markdown-table-item2n-background;
+        }
+
+        th,
+        td {
+            padding: 8px 14px; // repeat for comment
+            min-width: 50px; // repeat for comment
+        }
+
+        th,
+        td,
+        & {
+            border: 1px solid $markdown-table-border;
+            border-collapse: collapse;
+        }
+    }
+
+    // general table (in code blocks, etc.)
+    @include styleutils.portrait {
+        table {
+            overflow-x: auto; // override mobile default
+        }
+    }
+
+    // inline code
+    >code,
+    :not(pre)>code {
+        background-color: $markdown-inline-code-background;
+        font-size: 1em; // override
+        margin: 0;
+        padding: .2em .4em;
+        color: inherit; // override default
+        border-radius: 6px;
+        padding: 0 5px;
+        display: inline-block;
+        font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+        font-size: 85%;
+        line-height: inherit;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        code {
+            font-size: 100%;
+        }
+    }
+    
+
+    // block code
+    pre {
+        margin: 20px 0;
+        border-radius: 6px;
+
+        >code {
+            background-color: $markdown-code-background;
+            display: block; // repeat
+            padding: 0.5em;
+            min-width: fit-content;
+            line-height: 1.45;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            font-size: 85%;
+        }
+    }
+}

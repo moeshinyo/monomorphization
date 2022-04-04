@@ -1,0 +1,36 @@
+@use "../literals/links";
+$back2top-foreground: #9d9d9d;
+$back2top-background: #ffffff;
+$back2top-boxshadow: #c2c2c2;
+
+
+// 
+// indicator "back to the top" 
+#cnblogx_back2top {
+  display: flex;
+  box-sizing: border-box;
+  padding: 6px;
+  border-radius: 3px;
+  width: 38px;
+  height: 38px;
+  color: $back2top-foreground;
+  right: 6px;
+  position: fixed;
+  bottom: 6px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: $back2top-background;
+  box-shadow: 1px 1px 3px $back2top-boxshadow;
+  transition: opacity .3s ease 0s, visibility .3s ease 0s;
+  &::before {
+    content: links.$back-to-top-icon-link;
+    line-height: 100%;
+    width: 100%;
+    height: 100%;
+  }
+  &.cnblogx_back2top_hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
