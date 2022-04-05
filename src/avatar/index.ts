@@ -17,7 +17,7 @@ function init_avatar() {
         return;
     }
 
-    const TAG_PROCESSED = 'cnblogx_avatars_added';
+    const TAG_PROCESSED = 'cnblogx-avatars-added';
     const assigned_avatars = new Map();
     let assigned_avatar_counter = 0;
     const new_default_avatar = (nick) => {
@@ -25,9 +25,9 @@ function init_avatar() {
         if (!assigned_avatars.has(nick)) {
             assigned_avatars.set(nick, (assigned_avatar_counter++ % literals.defaultAvatarsLength).toString());
         }
-        avatar.classList.add('cnblogx_default_avatar_' + assigned_avatars.get(nick));
-        avatar.classList.add('cnblogx_default_avatar');
-        avatar.classList.add('cnblogx_avatar');
+        avatar.classList.add('cnblogx-default-avatar-' + assigned_avatars.get(nick));
+        avatar.classList.add('cnblogx-default-avatar');
+        avatar.classList.add('cnblogx-avatar');
         return avatar;
     };
 
@@ -48,7 +48,7 @@ function init_avatar() {
             if (addr.endsWith('.png')) {
                 avatar = document.createElement('img');
                 avatar.src = get_hi_definition_avatar_src(addr);
-                avatar.classList.add('cnblogx_avatar');
+                avatar.classList.add('cnblogx-avatar');
                 avatar.addEventListener('error', () => {
                     if (avatar.src != addr) { // fallback to original avatar
                         avatar.src = addr;

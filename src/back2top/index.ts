@@ -6,9 +6,9 @@ import { bind_stackel } from '../utils/stackel';
 //
 // add a to-top indicator.
 function init_back2top() {
-    const CLS_HIDDEN = 'cnblogx_back2top_hidden';
+    const CLS_HIDDEN = 'cnblogx-back2top-hidden';
     const back2top = document.createElement('div');
-    back2top.id = 'cnblogx_back2top';
+    back2top.id = 'cnblogx-back2top';
     back2top.className = CLS_HIDDEN;
     document.body.appendChild(back2top);
 

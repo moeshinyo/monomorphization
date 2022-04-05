@@ -7,8 +7,16 @@ function init_toc(on_click?: () => void) {
         return;
     }
 
-    // create a new toc node
-    const CreateTocNode = (refel: HTMLElement, opt_text?: string) => {
+    interface TocNode {
+            el: HTMLElement, 
+            refel: HTMLElement, 
+            add_toc_child: (node: TocNode) => void, 
+            highlight: () => void, 
+            remove_highlight: () => void, 
+    }
+
+    // create a new toc node. 
+    const CreateTocNode = (refel: HTMLElement, opt_text?: string): TocNode => {
         const node = document.createElement('div');
         node.classList.add('cnblogx-toc-node');
 
@@ -31,65 +39,63 @@ function init_toc(on_click?: () => void) {
         });
         title.innerText = opt_text ? opt_text : refel.innerText;
 
-        const add = (child) => subs.appendChild(child.el);
-        const hlit = () => title.classList.add('cnblogx-toc-title-hightlight');
-        const rmhl = () => title.classList.remove('cnblogx-toc-title-hightlight');
+        const add_toc_child = (child) => subs.appendChild(child.el);
+        const highlight = () => title.classList.add('cnblogx-toc-title-hightlight');
+        const remove_highlight = () => title.classList.remove('cnblogx-toc-title-hightlight');
 
         return {
             el: node, 
             refel, 
-            add, 
-            hlit, 
-            rmhl, 
+            add_toc_child, 
+            highlight, 
+            remove_highlight, 
         };
     };
 
-    // create table of contents
     const toc = document.createElement('div');
     toc.id = 'cnblogx-toc'
-    const rootNode = CreateTocNode(document.querySelector(`a[name='top']`), '目录');
-    toc.appendChild(rootNode.el);
+    const root_node = CreateTocNode(document.querySelector(`a[name='top']`), '目录');
+    toc.appendChild(root_node.el);
 
-    const SEL_HEADERS = `.cnblogs-markdown>h1, .cnblogs-markdown>h2, .cnblogs-markdown>h3, .cnblogs-markdown>h4, .cnblogs-markdown>h5, .cnblogs-markdown>h6`;
-    const nodeStack = [rootNode];
-    const nodeSeq = [rootNode];
-    const level = (node) => Object.is(node, rootNode.refel) ? '0' : node.tagName[1];
-    const topNode = () => nodeStack[nodeStack.length - 1];
+    const SELECTOR_HEADERS = `.cnblogs-markdown>h1, .cnblogs-markdown>h2, .cnblogs-markdown>h3, .cnblogs-markdown>h4, .cnblogs-markdown>h5, .cnblogs-markdown>h6`;
+    const node_stack = [root_node];
+    const node_list = [root_node];
+    const level = (node) => Object.is(node, root_node.refel) ? '0' : node.tagName[1];
+    const node_stack_top = () => node_stack[node_stack.length - 1];
 
-    document.querySelector('#cnblogs_post_body.cnblogs-markdown').querySelectorAll(SEL_HEADERS).forEach(function (header) {
+    document.querySelector('#cnblogs_post_body.cnblogs-markdown').querySelectorAll(SELECTOR_HEADERS).forEach(function (header) {
         const node = CreateTocNode(header as HTMLElement);
 
         for (; ;) {
-            if (level(topNode().refel) < level(header)) {
-                topNode().add(node);
-                nodeStack.push(node);
+            if (level(node_stack_top().refel) < level(header)) {
+                node_stack_top().add_toc_child(node);
+                node_stack.push(node);
                 break;
             } else {
-                nodeStack.pop();
+                node_stack.pop();
             }
         }
 
-        nodeSeq.push(node);
-        nodeStack.push(node);
+        node_list.push(node);
     });
 
-    const comment = document.getElementById(`blog-comments-placeholder`);
+    const comment = document.getElementById(`!comments`);
 
     if (comment) {
-        const commentNode = CreateTocNode(comment, '评论列表');
-        toc.appendChild(commentNode.el);
-        nodeSeq.push(commentNode);
+        const comment_node = CreateTocNode(comment, '评论列表');
+        toc.appendChild(comment_node.el);
+        node_list.push(comment_node);
     }
     
     document.querySelector('#sideBarMain').appendChild(toc);
 
-    let last_highlight = null;
-    let timeout = null;
+    let last_highlight: TocNode | null = null;
+    let timeout: NodeJS.Timeout | null = null;
     
-    const updateCurrentNode = () => {
-        const distance = (index) => nodeSeq[index].refel.getBoundingClientRect().top;
+    const update_current_node = () => {
+        const distance = (index) => node_list[index].refel.getBoundingClientRect().top;
         let left = 0;
-        let right = nodeSeq.length - 1;
+        let right = node_list.length - 1;
 
         while (left + 1 < right) {
             const mid = Math.floor((left + right) / 2);
@@ -101,21 +107,21 @@ function init_toc(on_click?: () => void) {
             }
         }
 
-        if (nodeSeq.at(left)) {
+        if (node_list.at(left)) {
             if (Math.abs(distance(left)) > distance(right)) {
                 left = right;
             }
-            last_highlight?.rmhl();
-            last_highlight = nodeSeq.at(left);
-            last_highlight?.hlit();
+            last_highlight?.remove_highlight();
+            last_highlight = node_list.at(left);
+            last_highlight?.highlight();
         }
     };
 
     regi_scroll(throttle(() => {
-        updateCurrentNode();
+        update_current_node();
         if (!timeout) {
             timeout = setTimeout(() => {
-                updateCurrentNode();
+                update_current_node();
                 timeout = null;
             }, 400);
         }
@@ -126,3 +132,4 @@ function init_toc(on_click?: () => void) {
 export {
     init_toc,
 };
+

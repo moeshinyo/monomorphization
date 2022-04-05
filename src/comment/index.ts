@@ -28,13 +28,6 @@ function init_comment() {
                 layer.insertAdjacentElement('afterend', author);
                 layer.insertAdjacentText('afterend', ' ');
             }
-
-            // item.querySelectorAll('.comment_digg').forEach((el) => {
-            //     el.textContent = '';
-            // });
-            // item.querySelectorAll('.comment_burry').forEach((el) => {
-            //     el.textContent = '';
-            // });
         });
         return 'continue'; // keep tracking...
     });

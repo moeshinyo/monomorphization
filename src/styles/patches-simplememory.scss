@@ -7,6 +7,9 @@
     padding-top: 2px;
     font-size: 14px;
     color: rgb(44, 45, 47);
+    @include styleutils.portrait {
+        margin-top: 0;
+    }
 }
 
 #navigator {
@@ -16,7 +19,7 @@
 
 @include styleutils.landscape {
     #main {
-        gap: 4px;
+        gap: 18px;
         display: flex;
         margin-top: 4px;
 
@@ -31,7 +34,11 @@
         }
 
         #sideBar {
-            width: 280px;
+            width: 240px;
+        }
+
+        #sideBar + div {
+            display: none;
         }
     }
 }
@@ -52,17 +59,17 @@
     }
 } 
 
-h1.postTitle {
-    font-size: 24px !important;
-
-    a:hover {
-        margin-left: auto;
-        color: #21759b;
-    }
-}
 
 #topics {
     float: none;
+    h1.postTitle {
+        font-size: 24px;
+    
+        a:hover {
+            margin-left: auto;
+            color: #21759b;
+        }
+    }
 }
 
 .postBody blockquote {
@@ -104,4 +111,8 @@ h1.postTitle {
             filter: contrast(110%);
         }
     }
+}
+
+.comment_textarea {
+    width: 100%;
 }

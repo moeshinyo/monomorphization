@@ -16,15 +16,15 @@ function init_coscroll(): PinningUtils {
     const sidebar = document.getElementById("sideBar");
     const sidebarmain = document.getElementById("sideBarMain");
 
-    const updateVar = (name, val) => sidebar.style.setProperty(`--cnblogx-coscroll-${name}`, `${val}px`);
-    const setOffsetY = (offset) => updateVar('offsety', offset);
+    const update_cssvar = (name, val) => sidebar.style.setProperty(`--cnblogx-coscroll-${name}`, `${val}px`);
+    const set_offsety = (offset) => update_cssvar('offsety', offset);
     
     let copinned = false;
     let pinned = false;
     
     const pin = (top) => {
         if (!pinned) {
-            updateVar('pinning-offsety', top);
+            update_cssvar('pinning-offsety', top);
             sidebar.classList.add(CLS_PINNED);
             pinned = true;
         }
@@ -43,7 +43,7 @@ function init_coscroll(): PinningUtils {
     }; 
     const counpin = () => {
         if (copinned) {
-            setOffsetY(sidebarmain.getBoundingClientRect().top - main.getBoundingClientRect().top);
+            set_offsety(sidebarmain.getBoundingClientRect().top - main.getBoundingClientRect().top);
             unpin();
             copinned = false;
         }
@@ -54,47 +54,47 @@ function init_coscroll(): PinningUtils {
         const middle = sidebar.getBoundingClientRect();
         const inner = sidebarmain.getBoundingClientRect();
 
-        updateVar('middle-width', middle.width);
-        updateVar('inner-height', inner.height);
-        updateVar('middle-left', middle.left);
+        update_cssvar('middle-width', middle.width);
+        update_cssvar('inner-height', inner.height);
+        update_cssvar('middle-left', middle.left);
         
         // sidebar is shorter than window height. 
         if (middle.height <= window.innerHeight) {
             if (outer.top < 0) {
-                setOffsetY(0 - outer.top);
+                set_offsety(0 - outer.top);
                 pin(0);
             } else {
                 unpin();
-                setOffsetY(0);
+                set_offsety(0);
             }
             return;
         }
         
-        // scroll down
+        // scroll down. 
         if (middle.bottom < window.innerHeight) {
             if (outer.bottom < window.innerHeight) {
                 unpin();
-                setOffsetY(outer.height - middle.height);
+                set_offsety(outer.height - middle.height);
             } else {
-                setOffsetY(window.innerHeight - middle.height - outer.top);
+                set_offsety(window.innerHeight - middle.height - outer.top);
                 pin(window.innerHeight - inner.height);
             }
             return;
         }
         
-        // scroll up
+        // scroll up. 
         if (middle.top >= 0) {
             if (outer.top > 0) {
                 unpin();
-                setOffsetY(0);
+                set_offsety(0);
             } else {
-                setOffsetY(0 - outer.top);
+                set_offsety(0 - outer.top);
                 pin(0);
             }
             return;
         }
 
-        // coscroll
+        // coscroll. 
         if (!copinned) {
             unpin();
         }

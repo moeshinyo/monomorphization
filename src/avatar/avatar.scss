@@ -6,7 +6,7 @@ $avatar-border: rgb(241, 241, 241);
 
 // 
 // avatar in comment area (for users have avatar). 
-.cnblogx_avatar {
+.cnblogx-avatar {
   width: 38.4px;
   height: 38.4px;
   margin-top: 6px;
@@ -19,7 +19,7 @@ $avatar-border: rgb(241, 241, 241);
 // 
 // define color sequence for default avatars. 
 @for $i from 1 through list.length(avatars.$avatars-background-array) {
-  .cnblogx_default_avatar_#{$i - 1} {
+  .cnblogx-default-avatar-#{$i - 1} {
     background-color: list.nth(avatars.$avatars-background-array, $i);
   }
 }
