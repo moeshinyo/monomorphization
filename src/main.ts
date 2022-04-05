@@ -23,14 +23,24 @@ export function main() {
     const { copin, counpin} = init_coscroll();
     
     // 添加目录，并在点击目录导致页面滚动时锁定侧边栏。 
+    const cancel_list: (NodeJS.Timeout | (() => void))[] = [];
+    const cancel = () => cancel_list
+        .forEach(e => typeof(e) === 'function' ? e() : clearTimeout(e));
+
     init_toc(() => {
+        cancel(); // 用户又点击目录时先清除之前设定的事件。
         copin();
-        const cancel = one_shot(document.body, 'wheel', () => {
+        
+        // 用户自己滚了就解除锁定。
+        cancel_list.push(one_shot(document.body, 'wheel', () => {
             counpin();
-        });
-        setTimeout(() => {
             cancel();
+        }));
+
+        // 超时了也解除锁定。
+        cancel_list.push(setTimeout(() => {
             counpin();
-        }, 1000);
+            cancel();
+        }, 1200));
     });
 }
