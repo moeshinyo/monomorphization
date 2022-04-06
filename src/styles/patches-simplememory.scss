@@ -9,6 +9,7 @@
     color: rgb(44, 45, 47);
     @include styleutils.portrait {
         margin-top: 0;
+        padding: 12px;
     }
 }
 
