@@ -117,3 +117,11 @@
 .comment_textarea {
     width: 100%;
 }
+
+.cnblogs-markdown pre code, .cnblogs-post-body pre code {
+    white-space: pre;
+}
+
+a:visited {
+    color: #4f1271;
+}
