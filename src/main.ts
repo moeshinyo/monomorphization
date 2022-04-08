@@ -16,19 +16,20 @@ export function main() {
     // 添加评论区头像。
     init_avatar();
 
-    // 修改一下评论区。 
+    // 装饰一下评论区。 
     init_comment();
     
     // 实现侧边栏的协同滚动。 
     const { copin, counpin} = init_coscroll();
     
-    // 添加目录，并在点击目录导致页面滚动时锁定侧边栏。 
+    // 添加目录，并在点击目录导致页面滚动时锁定侧边栏。  
     const cancel_list: (NodeJS.Timeout | (() => void))[] = [];
     const cancel = () => cancel_list
         .forEach(e => typeof(e) === 'function' ? e() : clearTimeout(e));
 
     init_toc(() => {
         cancel(); // 用户又点击目录时先清除之前设定的事件。
+        counpin();
         copin();
         
         // 用户自己滚了就解除锁定。
@@ -41,6 +42,6 @@ export function main() {
         cancel_list.push(setTimeout(() => {
             counpin();
             cancel();
-        }, 1200));
+        }, 11200));
     });
 }

@@ -1,5 +1,5 @@
 import './toc.scss';
-import { regi_scroll, throttle } from '../utils/jsutils';
+import { regi_scroll, throttle, debounce } from '../utils/jsutils';
 
 
 function init_toc(on_click?: () => void) {
@@ -90,7 +90,6 @@ function init_toc(on_click?: () => void) {
     document.querySelector('#sideBarMain').appendChild(toc);
 
     let last_highlight: TocNode | null = null;
-    let timeout: NodeJS.Timeout | null = null;
     
     const update_current_node = () => {
         const distance = (index) => node_list[index].refel.getBoundingClientRect().top;
@@ -117,14 +116,13 @@ function init_toc(on_click?: () => void) {
         }
     };
 
+    const last_update_current_node = debounce(() => {
+        update_current_node();
+    }, 400);
+
     regi_scroll(throttle(() => {
         update_current_node();
-        if (!timeout) {
-            timeout = setTimeout(() => {
-                update_current_node();
-                timeout = null;
-            }, 400);
-        }
+        last_update_current_node();
     }, 200));
 }
 
