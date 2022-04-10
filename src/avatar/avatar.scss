@@ -1,6 +1,6 @@
 @use "sass:list";
 @use "./avatar.icss" as avatars;
-@use "../literals/links.scss";
+@use "../literals/links.icss" as links;
 
 $avatar-border: rgb(241, 241, 241);
 
