@@ -44,10 +44,9 @@
 src/
   │   main.ejs # 没有任何内容。
   │   main.scss # 引入styles/下的样式。
-  │   main.ts # 引入各个子模块，并处理coscroll与toc之间的业务逻辑。
+  │   main.ts # 引入各个子模块，并处理coscroll与toc之间的逻辑关系。
   ├───avatar
-  │       avatar.icss.js # 引入icss中定义的默认头像颜色列表。
-  │       avatar.icss.d.ts # 类型定义文件。
+  │       avatar.icss.scss.d.ts # 为默认头像的颜色列表声明类型。
   │       avatar.icss.scss # 定义默认头像的颜色列表。
   │       avatar.scss # 头像样式。
   │       index.ts # 为评论区添加头像。
@@ -65,7 +64,7 @@ src/
   │       links.scss # 声明项目中用到的链接。
   ├───styles
   │       markdown.scss # Markdown样式。
-  │       patches-simplememory.scss # 对simplememory作出了一点修改。
+  │       patches-simplememory.scss # 对simplememory做出了一点修改。
   ├───toc
   │       index.ts # 为文章添加一个目录。
   │       toc.scss # 目录的样式。
