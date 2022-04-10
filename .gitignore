@@ -1,1 +1,5 @@
+# Node.js dependencies
 node_modules
+
+# Output dir
+dist
