@@ -23,7 +23,7 @@ function init_avatar() {
     const new_default_avatar = (nick: string) => {
         const avatar = document.createElement('div');
         if (!assigned_avatars.has(nick)) {
-            assigned_avatars.set(nick, (assigned_avatar_counter++ % literals.defaultAvatarsLength).toString());
+            assigned_avatars.set(nick, (assigned_avatar_counter++ % Number.parseInt(literals.defaultAvatarsLength)).toString());
         }
         avatar.classList.add('cnblogx-default-avatar-' + assigned_avatars.get(nick));
         avatar.classList.add('cnblogx-default-avatar');
