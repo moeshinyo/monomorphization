@@ -1,5 +1,5 @@
 {
-  "name": "monomorphization",
+  "name": "cnblogx-starter",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -14,13 +14,10 @@
   "browserslist": [
     "extends @davidhund/browserslist-config"
   ],
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
-  },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@davidhund/browserslist-config": "^1.0.0",
@@ -37,6 +34,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-webpack-plugin": "^3.1.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.3",
     "html-inline-script-webpack-plugin": "^3.0.0",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
@@ -49,6 +47,7 @@
     "sass-loader": "^11.1.1",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.3.1",
+    "ts-loader": "^9.2.8",
     "typescript": "^4.6.3",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",

@@ -28,8 +28,11 @@ export function main() {
         .forEach(e => typeof(e) === 'function' ? e() : clearTimeout(e));
 
     init_toc(() => {
-        cancel(); // 用户又点击目录时先清除之前设定的事件。
+        // 用户点了第二次也解除锁定。
         counpin();
+        cancel();
+
+        // 锁定侧边栏。
         copin();
         
         // 用户自己滚了就解除锁定。
@@ -42,6 +45,6 @@ export function main() {
         cancel_list.push(setTimeout(() => {
             counpin();
             cancel();
-        }, 11200));
+        }, 1200));
     });
 }

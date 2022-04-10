@@ -68,11 +68,11 @@ switch (window.__cnblogx_stage) {
             if (xhr.readyState !== xhr.DONE) {
                 askForExit();
             } else {
-                const old_html = document.querySelector(`#${__TAG_CUSTOM_HTML}`);
+                const old_html = document.querySelector(`#${__TAG_CUSTOM_HTML}`) as HTMLElement;
                 old_html.removeAttribute('id');
                 old_html.innerHTML = xhr.response;
 
-                const dev_html = old_html.querySelector(`#${__TAG_CUSTOM_HTML}`);
+                const dev_html = old_html.querySelector(`#${__TAG_CUSTOM_HTML}`) as HTMLElement;
                 old_html.replaceWith(dev_html);
                 dev_html.querySelectorAll('script').forEach((dummy) => {
                     const script = document.createElement('script');

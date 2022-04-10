@@ -4,8 +4,8 @@ import './jsutils.scss';
 // observer: do something now or in the future if the target does not exist. 
 // event return: undefined (i.e. not returned): stop monitoring. 
 // event return: 'continue': continue monitoring for future changes. 
-function wait_for(ancestor: string, target: string, callback_proc: (Element) => 'continue' | undefined) {
-    const node_ancestor = document.querySelector(ancestor);
+function wait_for(ancestor: string, target: string, callback_proc: (_: Element) => 'continue' | undefined) {
+    const node_ancestor = document.querySelector(ancestor) as Element;
     
     const check = () => {
         const tar = node_ancestor.querySelector(target);
@@ -45,19 +45,19 @@ function literal_as_strs(raw: string): string[] {
     return raw.split(',').map((str) => literal_as_str(str.trim()));
 }
 
-function debounce(func: (...args) => void, wait: number, immediate = false) {
+function debounce(func: (...args: any[]) => void, wait: number, immediate = false) {
     let timeout: NodeJS.Timeout | null = null;
 
-    return function execIt(...args) {
+    return function execIt(this: any, ...args: any[]) {
 
-        const later = function () {
+        const later = function (this: any) {
             timeout = null;
             if (!immediate) func.apply(this, args);
         };
 
         const callNow = immediate && !timeout;
 
-        clearTimeout(timeout);
+        clearTimeout(timeout as NodeJS.Timeout);
 
         timeout = setTimeout(later, wait);
 
@@ -65,9 +65,9 @@ function debounce(func: (...args) => void, wait: number, immediate = false) {
     };
 }
 
-function throttle(func: (...args) => void, wait: number) {
+function throttle(func: (...args: any[]) => void, wait: number) {
     let previous = 0;
-    return function (...args) {
+    return function (this: any, ...args: any[]) {
         const now = Date.now();
         if (now - previous > wait) {
             func.apply(this, args);
@@ -76,9 +76,9 @@ function throttle(func: (...args) => void, wait: number) {
     }
 }
 
-function one_shot(el: HTMLElement, type: keyof HTMLElementEventMap, func: (...args) => void): () => void {
+function one_shot(el: HTMLElement, type: keyof HTMLElementEventMap, func: (...args: any[]) => void): () => void {
     
-    function once(...args) {
+    function once(...args: any[]) {
         el.removeEventListener(type, once);
         func.apply(el, args);
     }

@@ -47,6 +47,7 @@ src/
   │   main.ts # 引入各个子模块，并处理coscroll与toc之间的业务逻辑。
   ├───avatar
   │       avatar.icss.js # 引入icss中定义的默认头像颜色列表。
+  │       avatar.icss.d.ts # 类型定义文件。
   │       avatar.icss.scss # 定义默认头像的颜色列表。
   │       avatar.scss # 头像样式。
   │       index.ts # 为评论区添加头像。

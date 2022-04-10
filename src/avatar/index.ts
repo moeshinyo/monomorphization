@@ -5,7 +5,7 @@ import { wait_for } from '../utils/jsutils';
 
 // 
 // get the url of the high-definition avatar
-function get_hi_definition_avatar_src(src) {
+function get_hi_definition_avatar_src(src: string) {
     return src.replace('pic.cnblogs.com/face', 'pic.cnblogs.com/avatar');
 }
 
@@ -20,7 +20,7 @@ function init_avatar() {
     const TAG_PROCESSED = 'cnblogx-avatars-added';
     const assigned_avatars = new Map();
     let assigned_avatar_counter = 0;
-    const new_default_avatar = (nick) => {
+    const new_default_avatar = (nick: string) => {
         const avatar = document.createElement('div');
         if (!assigned_avatars.has(nick)) {
             assigned_avatars.set(nick, (assigned_avatar_counter++ % literals.defaultAvatarsLength).toString());
@@ -38,7 +38,7 @@ function init_avatar() {
             } else {
                 item.classList.add(TAG_PROCESSED)
             }
-            let avatar = null;
+            let avatar: null | HTMLImageElement | HTMLDivElement = null;
 
             const nickel = item.querySelector('.feedbackListSubtitle>a:last-child') as HTMLElement;
             const addrel = item.querySelector('.feedbackCon>span:last-child') as HTMLElement;
@@ -47,20 +47,21 @@ function init_avatar() {
 
             if (addr.endsWith('.png')) {
                 avatar = document.createElement('img');
-                avatar.src = get_hi_definition_avatar_src(addr);
+                (avatar as HTMLImageElement).src = get_hi_definition_avatar_src(addr);
                 avatar.classList.add('cnblogx-avatar');
                 avatar.addEventListener('error', () => {
-                    if (avatar.src != addr) { // fallback to original avatar
-                        avatar.src = addr;
+                    const _avatar = avatar as HTMLImageElement;
+                    if (_avatar.src != addr) { // fallback to original avatar
+                        _avatar.src = addr;
                     } else { // fallback to default avatar
-                        avatar.parentNode.replaceChild(new_default_avatar(nick), avatar);
+                        _avatar.replaceWith(new_default_avatar(nick));
                     }
                 });
             } else {
                 avatar = new_default_avatar(nick);
             }
             item.querySelectorAll('.feedbackCon').forEach(function (con) {
-                con.insertBefore(avatar, con.firstChild);
+                con.insertBefore(avatar as HTMLElement, con.firstChild);
             });
         });
         return 'continue'; // keep tracking...

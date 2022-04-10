@@ -12,19 +12,19 @@ interface PinningUtils {
 function init_coscroll(): PinningUtils {
     const CLS_PINNED = "cnblogx-coscroll-pinned";
     
-    const main = document.getElementById("main");
-    const sidebar = document.getElementById("sideBar");
-    const sidebarmain = document.getElementById("sideBarMain");
+    const main = document.getElementById("main") as HTMLDivElement;
+    const sidebar = document.getElementById("sideBar") as HTMLDivElement;
+    const sidebarmain = document.getElementById("sideBarMain") as HTMLDivElement;
 
-    const update_cssvar = (name, val) => sidebar.style.setProperty(`--cnblogx-coscroll-${name}`, `${val}px`);
-    const set_offsety = (offset) => update_cssvar('offsety', offset);
+    const update_cssvar = (name: string, val: number) => sidebar.style.setProperty(`--cnblogx-coscroll-${name}`, `${val}px`);
+    const set_offsety = (offset: number) => update_cssvar('offsety', offset);
     
-    let copinned = false;
+    let copinned: null | number = null;
     let pinned = false;
     
-    const pin = (top) => {
+    const pin = (top: number) => {
         if (!pinned) {
-            update_cssvar('pinning-offsety', top);
+            update_cssvar('pinning-point', top);
             sidebar.classList.add(CLS_PINNED);
             pinned = true;
         }
@@ -36,16 +36,16 @@ function init_coscroll(): PinningUtils {
         }
     };
     const copin = () => {
-        if (!copinned) {
-            pin(sidebar.getBoundingClientRect().top);
-            copinned = true;
+        if (copinned === null) {
+            copinned = sidebar.getBoundingClientRect().top;
+            pin(copinned);
         }
     }; 
     const counpin = () => {
-        if (copinned) {
+        if (copinned !== null) {
+            copinned = null;
             set_offsety(sidebarmain.getBoundingClientRect().top - main.getBoundingClientRect().top);
             unpin();
-            copinned = false;
         }
     };
 
@@ -57,7 +57,24 @@ function init_coscroll(): PinningUtils {
         update_cssvar('middle-width', middle.width);
         update_cssvar('inner-height', inner.height);
         update_cssvar('middle-left', middle.left);
-        
+
+        const nearest_pinning_point = (point: number): number => {
+            // ensure the sidebar covers all visible space. 
+            const _point = point > 0 ? 0 : window.innerHeight - inner.height;
+            // ensure the main container covers the sidebar. 
+            return Math.min(Math.max(outer.top, _point), outer.bottom - inner.height);
+        };
+        const checked_pin = <T = typeof copinned>(point: T extends null ? number : null) => {
+            if (copinned !== null) {
+                pin(nearest_pinning_point(copinned));
+            } else {
+                pin(point as number);
+            }
+        };
+        const update_offsety_pinned = () => {
+            set_offsety(inner.top - outer.top);
+        };
+
         // sidebar is shorter than window height. 
         if (middle.height <= window.innerHeight) {
             if (outer.top < 0) {
@@ -70,33 +87,35 @@ function init_coscroll(): PinningUtils {
             return;
         }
         
-        // scroll down. 
-        if (middle.bottom < window.innerHeight) {
-            if (outer.bottom < window.innerHeight) {
-                unpin();
-                set_offsety(outer.height - middle.height);
-            } else {
-                set_offsety(window.innerHeight - middle.height - outer.top);
-                pin(window.innerHeight - inner.height);
-            }
-            return;
-        }
-        
-        // scroll up. 
+        // top. 
         if (middle.top >= 0) {
             if (outer.top > 0) {
                 unpin();
                 set_offsety(0);
             } else {
-                set_offsety(0 - outer.top);
-                pin(0);
+                checked_pin(0);
+                update_offsety_pinned();
+            }
+            return;
+        }
+
+        // bottom. 
+        if (middle.bottom < window.innerHeight) {
+            if (outer.bottom < window.innerHeight) {
+                unpin();
+                set_offsety(outer.height - middle.height);
+            } else {
+                checked_pin(window.innerHeight - inner.height);
+                update_offsety_pinned();
             }
             return;
         }
 
         // coscroll. 
-        if (!copinned) {
+        if (copinned === null) {
             unpin();
+        } else {
+            checked_pin<typeof copinned>(null);
         }
     });
 

@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { HtmlWebpackSkipAssetsPlugin } = require('html-webpack-skip-assets-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const webpack = require('webpack');
@@ -39,6 +40,7 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'dist'),
             clean: true,
         },
+        devtool: MODE_PRODUCTION ? false : 'inline-source-map', 
         devServer: {
             allowedHosts: 'all',
             port: DEV_SERVER_PORT,
@@ -51,16 +53,22 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 {
-                    test: /\.(m?js|ts)$/i,
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: [
+                        'babel-loader', 
+                        {
+                            loader: 'ts-loader', 
+                            options: {
+                                transpileOnly: true
+                              }
+                        },
+                    ], 
+                }, 
+                {
+                    test: /\.(m?js)$/i,
                     exclude: /node_modules/i,
-                    use: [{
-                        loader: 'babel-loader', options: {
-                            presets: [
-                                ['@babel/preset-env'], 
-                                ['@babel/preset-typescript']
-                            ]
-                        }
-                    }],
+                    use: ['babel-loader'],
                 },
                 {
                     test: /\.s[ac]ss$/i,
@@ -94,6 +102,7 @@ module.exports = (env, argv) => {
             extensions: ['.ts', '.js'],
         },
         plugins: [
+            new ForkTsCheckerWebpackPlugin(), 
             new ESLintPlugin({
                 extensions: ['ts', 'js'], 
             }), 

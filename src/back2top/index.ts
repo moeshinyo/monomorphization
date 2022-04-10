@@ -29,7 +29,7 @@ function init_back2top() {
         }
     };
 
-    let timeout = null;
+    let timeout: NodeJS.Timeout | null = null;
     
     regi_scroll(throttle(() => {
         update_indicator();

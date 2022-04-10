@@ -39,7 +39,7 @@ function init_toc(on_click?: () => void) {
         });
         title.innerText = opt_text ? opt_text : refel.innerText;
 
-        const add_toc_child = (child) => subs.appendChild(child.el);
+        const add_toc_child = (child: TocNode) => subs.appendChild(child.el);
         const highlight = () => title.classList.add('cnblogx-toc-title-hightlight');
         const remove_highlight = () => title.classList.remove('cnblogx-toc-title-hightlight');
 
@@ -54,16 +54,16 @@ function init_toc(on_click?: () => void) {
 
     const toc = document.createElement('div');
     toc.id = 'cnblogx-toc'
-    const root_node = CreateTocNode(document.querySelector(`a[name='top']`), '目录');
+    const root_node = CreateTocNode(document.querySelector(`a[name='top']`) ?? document.body, '目录');
     toc.appendChild(root_node.el);
 
     const SELECTOR_HEADERS = `.cnblogs-markdown>h1, .cnblogs-markdown>h2, .cnblogs-markdown>h3, .cnblogs-markdown>h4, .cnblogs-markdown>h5, .cnblogs-markdown>h6`;
     const node_stack = [root_node];
     const node_list = [root_node];
-    const level = (node) => Object.is(node, root_node.refel) ? '0' : node.tagName[1];
-    const node_stack_top = () => node_stack[node_stack.length - 1];
+    const level = (node: Element) => Object.is(node, root_node.refel) ? '0' : node.tagName[1];
+    const node_stack_top = (): TocNode => node_stack[node_stack.length - 1];
 
-    document.querySelector('#cnblogs_post_body.cnblogs-markdown').querySelectorAll(SELECTOR_HEADERS).forEach(function (header) {
+    document.querySelector('#cnblogs_post_body.cnblogs-markdown')?.querySelectorAll(SELECTOR_HEADERS).forEach(function (header) {
         const node = CreateTocNode(header as HTMLElement);
 
         for (; ;) {
@@ -87,12 +87,12 @@ function init_toc(on_click?: () => void) {
         node_list.push(comment_node);
     }
     
-    document.querySelector('#sideBarMain').appendChild(toc);
+    document.querySelector('#sideBarMain')?.appendChild(toc);
 
     let last_highlight: TocNode | null = null;
     
     const update_current_node = () => {
-        const distance = (index) => node_list[index].refel.getBoundingClientRect().top;
+        const distance = (index: number) => node_list[index].refel.getBoundingClientRect().top;
         let left = 0;
         let right = node_list.length - 1;
 
@@ -111,7 +111,7 @@ function init_toc(on_click?: () => void) {
                 left = right;
             }
             last_highlight?.remove_highlight();
-            last_highlight = node_list.at(left);
+            last_highlight = node_list.at(left) as TocNode;
             last_highlight?.highlight();
         }
     };
