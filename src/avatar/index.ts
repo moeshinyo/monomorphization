@@ -1,5 +1,5 @@
 import './avatar.scss';
-import { literals } from './avatar.icss'
+import { literals } from './avatar.icss.scss'
 import { wait_for } from '../utils/jsutils';
 
 
