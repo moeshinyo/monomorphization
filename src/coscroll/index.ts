@@ -35,21 +35,8 @@ function init_coscroll(): PinningUtils {
             pinned = false;
         }
     };
-    const copin = () => {
-        if (copinned === null) {
-            copinned = sidebar.getBoundingClientRect().top;
-            pin(copinned);
-        }
-    }; 
-    const counpin = () => {
-        if (copinned !== null) {
-            copinned = null;
-            set_offsety(sidebarmain.getBoundingClientRect().top - main.getBoundingClientRect().top);
-            unpin();
-        }
-    };
 
-    regi_scroll(() => {
+    const coscroll = () => {
         const outer = main.getBoundingClientRect();
         const middle = sidebar.getBoundingClientRect();
         const inner = sidebarmain.getBoundingClientRect();
@@ -59,27 +46,25 @@ function init_coscroll(): PinningUtils {
         update_cssvar('middle-left', middle.left);
 
         const nearest_pinning_point = (point: number): number => {
+            const lower_bound = window.innerHeight - inner.height;
             // ensure the sidebar covers all visible space. 
-            const _point = point > 0 ? 0 : window.innerHeight - inner.height;
+            const _point = point > 0 ? 0 : (point < lower_bound ? lower_bound : point);
             // ensure the main container covers the sidebar. 
             return Math.min(Math.max(outer.top, _point), outer.bottom - inner.height);
         };
-        const checked_pin = <T = typeof copinned>(point: T extends null ? number : null) => {
+        const checked_pin = (point: number) => {
             if (copinned !== null) {
                 pin(nearest_pinning_point(copinned));
             } else {
-                pin(point as number);
+                pin(point);
             }
-        };
-        const update_offsety_pinned = () => {
-            set_offsety(inner.top - outer.top);
         };
 
         // sidebar is shorter than window height. 
         if (middle.height <= window.innerHeight) {
             if (outer.top < 0) {
-                set_offsety(0 - outer.top);
                 pin(0);
+                set_offsety(0 - outer.top);
             } else {
                 unpin();
                 set_offsety(0);
@@ -87,26 +72,30 @@ function init_coscroll(): PinningUtils {
             return;
         }
         
-        // top. 
+        // top boundary. 
         if (middle.top >= 0) {
             if (outer.top > 0) {
+                // at the top. 
                 unpin();
                 set_offsety(0);
             } else {
+                // scroll up. 
                 checked_pin(0);
-                update_offsety_pinned();
+                set_offsety(0 - outer.top);
             }
             return;
         }
 
-        // bottom. 
+        // bottom boundary. 
         if (middle.bottom < window.innerHeight) {
             if (outer.bottom < window.innerHeight) {
+                // at the bottom. 
                 unpin();
                 set_offsety(outer.height - middle.height);
             } else {
+                // scroll down. 
                 checked_pin(window.innerHeight - inner.height);
-                update_offsety_pinned();
+                set_offsety(-outer.top + window.innerHeight - middle.height);
             }
             return;
         }
@@ -115,9 +104,25 @@ function init_coscroll(): PinningUtils {
         if (copinned === null) {
             unpin();
         } else {
-            checked_pin<typeof copinned>(null);
+            checked_pin(copinned);
         }
-    });
+    };
+
+    regi_scroll(coscroll);
+
+    const copin = () => {
+        if (copinned === null) {
+            copinned = sidebar.getBoundingClientRect().top;
+            coscroll(); // this will finally invoke `checked_pin`. 
+        }
+    }; 
+    const counpin = () => {
+        if (copinned !== null) {
+            copinned = null;
+            set_offsety(sidebarmain.getBoundingClientRect().top - main.getBoundingClientRect().top);
+            unpin();
+        }
+    };
 
     return {
         copin, 
