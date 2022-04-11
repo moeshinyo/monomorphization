@@ -92,14 +92,14 @@ function init_toc(on_click?: () => void) {
     let last_highlight: TocNode | null = null;
     
     const update_current_node = () => {
-        const distance = (index: number) => node_list[index].refel.getBoundingClientRect().top;
+        const get_el_top = (index: number) => node_list[index].refel.getBoundingClientRect().top;
         let left = 0;
         let right = node_list.length - 1;
 
         while (left + 1 < right) {
             const mid = Math.floor((left + right) / 2);
 
-            if (distance(mid) <= 0) {
+            if (get_el_top(mid) <= 0) {
                 left = mid;
             } else {
                 right = mid;
@@ -107,7 +107,8 @@ function init_toc(on_click?: () => void) {
         }
 
         if (node_list.at(left)) {
-            if (Math.abs(distance(left)) > distance(right)) {
+            if (Math.abs(get_el_top(left)) > get_el_top(right) 
+                    && (node_list.at(right) as TocNode).refel.getBoundingClientRect().top < window.innerHeight / 3) {
                 left = right;
             }
             last_highlight?.remove_highlight();
