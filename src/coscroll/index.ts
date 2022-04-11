@@ -20,19 +20,19 @@ function init_coscroll(): PinningUtils {
     const set_offsety = (offset: number) => update_cssvar('offsety', offset);
     
     let copinned: null | number = null;
-    let pinned = false;
+    let pinned: null | number = null;
     
     const pin = (top: number) => {
-        if (!pinned) {
+        if (pinned !== top) {
             update_cssvar('pinning-point', top);
             sidebar.classList.add(CLS_PINNED);
-            pinned = true;
+            pinned = top;
         }
     };
     const unpin = () => {
-        if (pinned) {
+        if (pinned !== null) {
             sidebar.classList.remove(CLS_PINNED);
-            pinned = false;
+            pinned = null;
         }
     };
 
@@ -82,6 +82,7 @@ function init_coscroll(): PinningUtils {
                 // scroll up. 
                 checked_pin(0);
                 set_offsety(0 - outer.top);
+                // console.log("top", middle.top);
             }
             return;
         }
@@ -96,6 +97,7 @@ function init_coscroll(): PinningUtils {
                 // scroll down. 
                 checked_pin(window.innerHeight - inner.height);
                 set_offsety(-outer.top + window.innerHeight - middle.height);
+                // console.log("bottom", middle.top);
             }
             return;
         }
@@ -103,6 +105,7 @@ function init_coscroll(): PinningUtils {
         // coscroll. 
         if (copinned === null) {
             unpin();
+            // console.log("coscroll", middle.top);
         } else {
             checked_pin(copinned);
         }
