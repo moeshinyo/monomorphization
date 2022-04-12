@@ -7,6 +7,18 @@ interface PinningUtils {
     counpin: () => void, 
 }
 
+type UnionToIntersaction<T> = 
+    (T extends any ? (_: T) => void : never) extends ((_: infer I) => void) 
+    ? I : never;
+type ParamToFunction<T> = T extends { copinned: infer C, point: infer P} 
+    ? P extends void ? (_1: C) => void: (_1: C, _2: P) => void: never;
+    
+interface CheckedPinParam1 { copinned: number, point: void, }
+interface CheckedPinParam2 { copinned: number | null, point: number, }
+type CheckedPinParam = CheckedPinParam1 | CheckedPinParam2;
+
+type CheckedPin = UnionToIntersaction<ParamToFunction<CheckedPinParam>>;
+
 //
 // make the sidebar always visible inside the viewport. 
 function init_coscroll(): PinningUtils {
@@ -52,11 +64,11 @@ function init_coscroll(): PinningUtils {
             // ensure the main container covers the sidebar. 
             return Math.min(Math.max(outer.top, _point), outer.bottom - inner.height);
         };
-        const checked_pin = (point: number) => {
+        const checked_pin: CheckedPin = (copinned: number | null, point?: number) => {
             if (copinned !== null) {
                 pin(nearest_pinning_point(copinned));
             } else {
-                pin(point);
+                pin(point as number);
             }
         };
 
@@ -80,7 +92,7 @@ function init_coscroll(): PinningUtils {
                 set_offsety(0);
             } else {
                 // scroll up. 
-                checked_pin(0);
+                checked_pin(copinned, 0);
                 set_offsety(0 - outer.top);
                 // console.log("top", middle.top);
             }
@@ -95,7 +107,7 @@ function init_coscroll(): PinningUtils {
                 set_offsety(outer.height - middle.height);
             } else {
                 // scroll down. 
-                checked_pin(window.innerHeight - inner.height);
+                checked_pin(copinned, window.innerHeight - inner.height);
                 set_offsety(-outer.top + window.innerHeight - middle.height);
                 // console.log("bottom", middle.top);
             }
