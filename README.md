@@ -60,7 +60,7 @@ src/
   │       coscroll.scss # 辅助coscroll控制侧边栏的偏移与锁定。
   │       index.ts # 实现内容页面与侧边栏的协同滚动。
   ├───literals
-  │       links.icss.scss # 重导出链接，用于传递给其它有需要的js代码。
+  │       links.icss.scss # 声明项目中用到的链接。
   │       text.icss.scss # 声明项目中用到的文本。
   |       text.icss.scss.d.ts # 为项目中用到的文本声明类型。
   ├───styles
