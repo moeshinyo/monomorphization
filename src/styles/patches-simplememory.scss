@@ -1,4 +1,4 @@
-@use "../utils/styleutils";
+@use "../utils/styleutils" as utils;
 @use "../literals/links.icss" as links;
 
 
@@ -7,7 +7,7 @@
     padding-top: 2px;
     font-size: 14px;
     color: rgb(44, 45, 47);
-    @include styleutils.portrait {
+    @include utils.portrait {
         margin-top: 0;
         padding: 12px;
     }
@@ -18,7 +18,7 @@
     border-top: none;
 }
 
-@include styleutils.landscape {
+@include utils.landscape {
     #main {
         gap: 18px;
         display: flex;

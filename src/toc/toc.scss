@@ -1,4 +1,4 @@
-@use "../utils/styleutils";
+@use "../utils/styleutils" as utils;
 $toc-text-foreground: rgb(76, 76, 79);
 
 #cnblogx-toc {
@@ -6,7 +6,7 @@ $toc-text-foreground: rgb(76, 76, 79);
   padding-bottom: 35px;
   user-select: none;
 
-  @include styleutils.portrait {
+  @include utils.portrait {
     display: none;
   }
 }

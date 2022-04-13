@@ -1,13 +1,13 @@
-@use "../styleutils";
+@use "../styleutils" as utils;
 
 
-@include styleutils.portrait {
+@include utils.portrait {
     .cnblogx_stackel {
         top: auto !important;
         left: auto !important;
         right: 12px !important;
-        width: 36px !important;
-        height: 36px !important;
+        width: 44px !important;
+        height: 44px !important;
         bottom: var(--cnblogx-stackel, 24px) !important;
     }
   }

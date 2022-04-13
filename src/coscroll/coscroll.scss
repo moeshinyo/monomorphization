@@ -1,6 +1,6 @@
-@use "../utils/styleutils";
+@use "../utils/styleutils" as utils;
 
-@include styleutils.landscape {
+@include utils.landscape {
   #main {
     padding: 0 !important;
     border: none !important;

@@ -46,8 +46,8 @@ src/
   │   main.scss # 引入styles/下的样式。
   │   main.ts # 引入各个子模块，并处理coscroll与toc之间的逻辑关系。
   ├───avatar
-  │       avatar.icss.scss.d.ts # 为默认头像的颜色列表声明类型。
   │       avatar.icss.scss # 定义默认头像的颜色列表。
+  │       avatar.icss.scss.d.ts # 为默认头像的颜色列表声明类型。
   │       avatar.scss # 头像样式。
   │       index.ts # 为评论区添加头像。
   ├───back2top
@@ -61,7 +61,8 @@ src/
   │       index.ts # 实现内容页面与侧边栏的协同滚动。
   ├───literals
   │       links.icss.scss # 重导出链接，用于传递给其它有需要的js代码。
-  │       links.scss # 声明项目中用到的链接。
+  │       text.icss.scss # 声明项目中用到的文本。
+  |       text.icss.scss.d.ts # 为项目中用到的文本声明类型。
   ├───styles
   │       markdown.scss # Markdown样式。
   │       patches-simplememory.scss # 对simplememory做出了一点修改。
@@ -70,11 +71,11 @@ src/
   │       toc.scss # 目录的样式。
   └───utils
       │   styleutils.scss # 一些Sass工具函数。
-      ├───jsutils
+      ├───tsutils
       │       index.ts # 一些工具函数，如防抖、节流等。
-      │       jsutils.scss # 辅助jsutils获取信息。
+      │       tsutils.scss # 辅助tsutils获取信息。
       └───stackel
-              index.ts # 为手机端的按钮们组织布局。
+              index.ts # 为移动端的按钮们组织布局。
               stackel.scss # 辅助stackel完成布局。
 ```
 

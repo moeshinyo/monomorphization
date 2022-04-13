@@ -1,4 +1,4 @@
-@use "../utils/styleutils";
+@use "../utils/styleutils" as utils;
 $comment-background: #f6f6f6;
 $comment-boxshadow: #dfdfdf;
 $comment-menu-border: #ddd;
@@ -21,7 +21,7 @@ $comment-menu-active-foreground: #333;
   height: fit-content;
   
   padding: 10px;
-  @include styleutils.padding-margin-collapse;
+  @include utils.padding-margin-collapse;
 
   &::after {
     content: "";
@@ -33,7 +33,7 @@ $comment-menu-active-foreground: #333;
     top: 12px;
   }
 
-  @include styleutils.portrait {
+  @include utils.portrait {
     font-size: 0.875rem;
     max-width: calc(100% - 124px);
   }
