@@ -1,5 +1,5 @@
 import "./coscroll.scss";
-import { regi_scroll } from "../utils/jsutils";
+import { regi_scroll } from "../utils/tsutils";
 
 
 interface PinningUtils {

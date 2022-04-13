@@ -1,3 +1,3 @@
-export const literals: {
+export default {
     defaultAvatarsLength: string
-};
+}

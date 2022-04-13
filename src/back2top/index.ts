@@ -1,5 +1,5 @@
 import './back2top.scss';
-import { regi_scroll, throttle } from '../utils/jsutils'
+import { regi_scroll, throttle } from '../utils/tsutils'
 import { bind_stackel } from '../utils/stackel';
 
 

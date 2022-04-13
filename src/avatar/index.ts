@@ -1,6 +1,6 @@
 import './avatar.scss';
-import { literals } from './avatar.icss.scss'
-import { wait_for } from '../utils/jsutils';
+import literals from './avatar.icss.scss'
+import { wait_for } from '../utils/tsutils';
 
 
 // 
@@ -16,6 +16,10 @@ function init_avatar() {
     if (!document.querySelector('#blog-comments-placeholder')) {
         return;
     }
+
+    Object.defineProperty(window, 'asd', {
+        value: literals.defaultAvatarsLength
+    });
 
     const TAG_PROCESSED = 'cnblogx-avatars-added';
     const assigned_avatars = new Map();

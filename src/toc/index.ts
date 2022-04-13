@@ -1,70 +1,64 @@
 import './toc.scss';
-import { regi_scroll, throttle, debounce } from '../utils/jsutils';
-
+import { regi_scroll, throttle, debounce, from_icss_string } from '../utils/tsutils';
+import literals from '../literals/text.icss.scss';
 
 function init_toc(on_click?: () => void) {
     if (!document.querySelector('#cnblogs_post_body')) {
         return;
     }
 
-    interface TocNode {
-            el: HTMLElement, 
-            refel: HTMLElement, 
-            add_toc_child: (node: TocNode) => void, 
-            highlight: () => void, 
-            remove_highlight: () => void, 
-    }
-
     // create a new toc node. 
-    const CreateTocNode = (refel: HTMLElement, opt_text?: string): TocNode => {
-        const node = document.createElement('div');
-        node.classList.add('cnblogx-toc-node');
+    class TocNode {
+        el: HTMLElement;
+        refel: HTMLElement;
+        add_toc_child: (_: TocNode) => void;
+        highlight: () => void;
+        remove_highlight: () => void;
 
-        const subs = document.createElement('div');
-        subs.classList.add('cnblogx-toc-sublist');
+        constructor(refel: HTMLElement, opt_text?: string) {
+            this.refel = refel;
+            this.el = document.createElement('div');
+            this.el.classList.add('cnblogx-toc-node');
 
-        const title = document.createElement('span');
-        title.classList.add('cnblogx-toc-title');
-        node.appendChild(title);
-        node.appendChild(subs);
+            const subs = document.createElement('div');
+            subs.classList.add('cnblogx-toc-sublist');
 
-        title.addEventListener('click', () => {
-            on_click?.apply(refel);
-            refel.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
-            window.history.pushState({}, '',
-                window.location.protocol + '//' +
-                window.location.host +
-                window.location.pathname +
-                window.location.search + '#' + encodeURIComponent(refel.id ?? ''));
-        });
-        title.innerText = opt_text ? opt_text : refel.innerText;
+            const title = document.createElement('span');
+            title.classList.add('cnblogx-toc-title');
+            this.el.appendChild(title);
+            this.el.appendChild(subs);
 
-        const add_toc_child = (child: TocNode) => subs.appendChild(child.el);
-        const highlight = () => title.classList.add('cnblogx-toc-title-hightlight');
-        const remove_highlight = () => title.classList.remove('cnblogx-toc-title-hightlight');
+            title.addEventListener('click', () => {
+                on_click?.apply(refel);
+                refel.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+                window.history.pushState({}, '',
+                    window.location.protocol + '//' +
+                    window.location.host +
+                    window.location.pathname +
+                    window.location.search + '#' + encodeURIComponent(refel.id ?? ''));
+            });
+            title.innerText = opt_text ? opt_text : refel.innerText;
 
-        return {
-            el: node, 
-            refel, 
-            add_toc_child, 
-            highlight, 
-            remove_highlight, 
-        };
-    };
+            this.add_toc_child = (child: TocNode) => subs.appendChild(child.el);
+            this.highlight = () => title.classList.add('cnblogx-toc-title-hightlight');
+            this.remove_highlight = () => title.classList.remove('cnblogx-toc-title-hightlight');
+        }
+    }
 
     const toc = document.createElement('div');
     toc.id = 'cnblogx-toc'
-    const root_node = CreateTocNode(document.querySelector(`a[name='top']`) ?? document.body, '目录');
+    const root_node = new TocNode(document.body, from_icss_string(literals.tocTextRoot));
     toc.appendChild(root_node.el);
 
-    const SELECTOR_HEADERS = `.cnblogs-markdown>h1, .cnblogs-markdown>h2, .cnblogs-markdown>h3, .cnblogs-markdown>h4, .cnblogs-markdown>h5, .cnblogs-markdown>h6`;
+    const SELECTOR_HEADERS = `.cnblogs-markdown>h1, .cnblogs-markdown>h2, .cnblogs-markdown>h3, \
+        .cnblogs-markdown>h4, .cnblogs-markdown>h5, .cnblogs-markdown>h6`;
     const node_stack = [root_node];
     const node_list = [root_node];
     const level = (node: Element) => Object.is(node, root_node.refel) ? '0' : node.tagName[1];
     const node_stack_top = (): TocNode => node_stack[node_stack.length - 1];
 
     document.querySelector('#cnblogs_post_body.cnblogs-markdown')?.querySelectorAll(SELECTOR_HEADERS).forEach(function (header) {
-        const node = CreateTocNode(header as HTMLElement);
+        const node = new TocNode(header as HTMLElement);
 
         for (; ;) {
             if (level(node_stack_top().refel) < level(header)) {
@@ -82,7 +76,7 @@ function init_toc(on_click?: () => void) {
     const comment = document.getElementById(`!comments`);
 
     if (comment) {
-        const comment_node = CreateTocNode(comment, '评论列表');
+        const comment_node = new TocNode(comment, from_icss_string(literals.tocTextComment));
         toc.appendChild(comment_node.el);
         node_list.push(comment_node);
     }

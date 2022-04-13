@@ -1,5 +1,5 @@
 import './comment.scss';
-import { wait_for } from '../utils/jsutils';
+import { wait_for } from '../utils/tsutils';
 
 
 //

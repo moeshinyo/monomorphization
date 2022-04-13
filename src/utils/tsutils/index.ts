@@ -1,4 +1,4 @@
-import './jsutils.scss';
+import './tsutils.scss';
 
 
 // observer: do something now or in the future if the target does not exist. 
@@ -36,13 +36,13 @@ function regi_scroll(callback: () => void) {
     callback();
 }
 
-function literal_as_str(raw: string): string {
-    const inner = raw.match(/^'(.*)'$/);
+function from_icss_string(raw: string): string {
+    const inner = raw.match(/^\s*["'](.*)["']\s*$/);
     return inner ? inner[1] : raw;
 }
 
-function literal_as_strs(raw: string): string[] {
-    return raw.split(',').map((str) => literal_as_str(str.trim()));
+function from_icss_array(raw: string): string[] {
+    return raw.split(',').map((str) => from_icss_string(str));
 }
 
 function debounce(func: (...args: any[]) => void, wait: number, immediate = false) {
@@ -95,6 +95,6 @@ export {
     debounce,
     is_portrait,
     regi_scroll,
-    literal_as_str,
-    literal_as_strs,
+    from_icss_string,
+    from_icss_array,
 };

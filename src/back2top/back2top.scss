@@ -21,7 +21,7 @@ $back2top-boxshadow: #c2c2c2;
   box-shadow: 1px 1px 3px $back2top-boxshadow;
   transition: opacity .3s ease 0s, visibility .3s ease 0s;
   &::before {
-    content: links.$back-to-top-icon-link;
+    content: links.$back2top-icon-link;
     display: block;
     width: 100%;
     height: 100%;

@@ -4,7 +4,7 @@ import { init_back2top } from "./back2top";
 import { init_comment } from "./comment";
 import { init_toc } from "./toc";
 import { init_coscroll } from "./coscroll";
-import { one_shot } from "./utils/jsutils";
+import { one_shot } from "./utils/tsutils";
 
 
 export function main() {
