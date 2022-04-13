@@ -24,7 +24,7 @@ function bind_stackel(tar: HTMLElement, zord: number) {
     tar.classList.add('cnblogx_stackel');
 
     window.cnblogx_stackel.forEach(({ tar }, i) => {
-        tar.style.setProperty('--cnblogx-stackel', `${24 + i * (44 + 16)}px`);
+        tar.style.setProperty('--cnblogx-stackel', `${24 + i * (38 + 16)}px`);
     });
 }
 
